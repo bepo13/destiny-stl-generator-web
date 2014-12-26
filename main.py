@@ -1,40 +1,40 @@
+import json
 from flask import Flask
 from flask import request
 from flask import render_template
 
-from BungieDatabase import BungieDatabase 
+from DestinyModel import DestinyModel 
 
 app = Flask(__name__)
 
-db = None
+gear = None
+gearFile = "./gear/gear.js"
 
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
     
 @app.route('/generate', methods=['GET'])
-def get_stl():
+def generate():
     item = request.args.get('item')
     
     # Download the model data for this item
-    model = db.getModel(item)
-    
-    # If the model is not null generate the stl file
-    if model is not None:
+    try:
+        model = DestinyModel(item, gear[item.lower()])
         output = model.generate()
-    else:
+    except:
         output = 'Unable to find requested item'
+        
+    # Return the stl output or response
     return render_template('output.html', output=output)
     
 if __name__ == '__main__':
-    # Create a Bungie Database object and connect to it
-    db = BungieDatabase()
-    db.connect()
+    # Load gear JSON file
+    fi = open(gearFile, 'r')
+    gear = json.loads(fi.read())
+    gear = {k.lower():v for k,v in gear.items()}
+    fi.close()
     
     # Run Flask
     # app.debug = True
     app.run()
-    
-    # Close the database and exit
-    db.close()
-    exit()
