@@ -32,7 +32,7 @@ if __name__ == '__main__':
     db.connect()
     
     # Run Flask
-    app.debug = True
+    # app.debug = True
     app.run()
     
     # Close the database and exit
