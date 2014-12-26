@@ -23,8 +23,7 @@ def generate():
         model = DestinyModel(item, gear[item.lower()])
         output = model.generate()
     except:
-        output = 'Unable to find requested item: '+item
-        output += gear[item.lower()]
+        output = "Unable to find requested item: "+item
         
     # Return the stl output or response
     return render_template('output.html', output=output)
@@ -37,5 +36,5 @@ if __name__ == '__main__':
     fi.close()
     
     # Run Flask
-    # app.debug = True
+    app.debug = True
     app.run()
