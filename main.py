@@ -23,7 +23,8 @@ def generate():
         model = DestinyModel(item, gear[item.lower()])
         output = model.generate()
     except:
-        output = 'Unable to find requested item'
+        output = 'Unable to find requested item: '+item
+        output += gear[item.lower()]
         
     # Return the stl output or response
     return render_template('output.html', output=output)
