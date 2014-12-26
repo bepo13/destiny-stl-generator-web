@@ -8,7 +8,7 @@ from DestinyModel import DestinyModel
 app = Flask(__name__)
 
 gear = None
-gearFile = "./gear/gear.js"
+gearFile = "./gear/gear.json"
 
 @app.route('/')
 def welcome():
@@ -17,6 +17,9 @@ def welcome():
 @app.route('/generate', methods=['GET'])
 def generate():
     item = request.args.get('item')
+
+    fi = open(gearFile, 'r')
+    return fi.read()
     
     # Download the model data for this item
     try:
