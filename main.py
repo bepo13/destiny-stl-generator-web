@@ -1,7 +1,5 @@
 import json
-from flask import Flask
-from flask import request
-from flask import render_template
+from flask import Flask, request, render_template
 
 from DestinyModel import DestinyModel 
 
@@ -10,6 +8,10 @@ app = Flask(__name__)
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
+    
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
     
 @app.route('/generate', methods=['GET'])
 def generate():
