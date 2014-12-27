@@ -7,9 +7,6 @@ from DestinyModel import DestinyModel
 
 app = Flask(__name__)
 
-gear = None
-gearFile = "./gear/gear.json"
-
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
@@ -19,10 +16,9 @@ def generate():
     item = request.args.get('item')
 
     # Load gear JSON file
-    fi = open(gearFile, 'r')
-    gear = json.loads(fi.read())
-    gear = {k.lower():v for k,v in gear.items()}
-    fi.close()
+    f = open("./gear/gear.json", 'r')
+    gear = json.loads(f.read())
+    f.close()
     
     # Download the model data for this item
     try:
@@ -36,5 +32,5 @@ def generate():
     
 if __name__ == '__main__':
     # Run Flask
-    app.debug = True
+    # app.debug = True
     app.run()
