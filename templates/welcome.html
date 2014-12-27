@@ -34,7 +34,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/">Home</a></li>
-                        <li><a href="/contact">Contact</a></li>
+<!--                         <li><a href="/contact">Contact</a></li> -->
                     </ul>
                 </div>
             </div>
@@ -43,38 +43,52 @@
             <div class="jumbotron">
                 <div class="container">
                     <h1>Welcome!</h1>
-                    <p>This website can be used to generate stl files for many of the items available in the game Destiny. The files are created using
-                    the same geometry components as the mobile and web previewers available from the Bungie website and mobile app. The source code
+                    <p>This website can be used to generate stl files for many of the items available in the game Destiny. The files are created with
+                    the same geometry components used in the gear previewer available on the Bungie website and mobile app. The source code
                     for this website can be found on the <a href="https://github.com/bepo13/destiny-stl-generator-web">GitHub repository</a>.</li></p>
                 </div>
             </div>
+            <br>
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <form class="input-group input-group-lg" action="generate">
                             <input type="text" name="item" placeholder="" class="form-control">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">Generate</button>
+                                <button class="btn btn-default" type="submit">Generate</button>
                             </span>
                         </form>
                     </div>
                 </div>
+                <br>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5 col-md-offset-1">
                         <h2>Usage</h2>
                         <ol>
-                            <li>Enter an item name in the text field above.</li>
+                            <li>Enter an item name in the text field above such as an armour, weapon or ship.</li>
                             <li>Copy the generated text to your clipboard.</li>
                             <li>Past the contents into a text editor and save with the stl file extension.</li>
+                            <li>Import the stl file into your favorite CAD program or a 3D printing utility such as NetFabb.</li>
                         </ol>
-                </div>
-                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-5">
                         <h2>Notes</h2>
                         <ol>
                             <li>This is a beta version and not all items have been tested.</li>
                             <li>Many of the generated models will require a quick clean up of 2D surfaces and holes before they can be 3D printed.</li>
                             <li>Please submit any issues to the <a href="https://github.com/bepo13/destiny-stl-generator-web">GitHub repository</a>.</li>
                         </ol>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-5">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="BVNUNKBVBVAHS">
+                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
                     </div>
                 </div>
                 <hr>
