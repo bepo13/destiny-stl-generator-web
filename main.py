@@ -21,7 +21,7 @@ def contact():
 @app.route('/generate', methods=['GET'])
 def generate():
     item = request.args.get('item')
-    key = item.replace('[',"").replace(']',"").lower()
+    key = item.replace('[',"").replace(']',"").replace('\'',"").lower()
 
     # Load gear JSON file
     f = open("./gear/gear.json", 'r')
