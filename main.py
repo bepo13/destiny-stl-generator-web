@@ -7,7 +7,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def welcome():
-    return render_template('welcome.html')
+    # Load gear JSON file
+    f = open("./gear/gear.json", 'r')
+    gear = json.loads(f.read())
+    f.close()
+    
+    for key in gear:
+        print(gear[key]["name"])
+        
+    return render_template('welcome.html', gear=gear)
     
 @app.route('/contact')
 def contact():
@@ -16,6 +24,7 @@ def contact():
 @app.route('/generate', methods=['GET'])
 def generate():
     item = request.args.get('item')
+    key = item.replace('[',"").replace(']',"").lower()
 
     # Load gear JSON file
     f = open("./gear/gear.json", 'r')
@@ -24,10 +33,10 @@ def generate():
     
     # Download the model data for this item
     try:
-        model = DestinyModel(item, gear[item.lower()])
+        model = DestinyModel(item, gear[key]["json"])
         output = model.generate()
     except:
-        output = "Unable to find requested item: "+item
+        output = "Unable to find requested item: "+str(item)
         
     # Return the stl output or response
     return render_template('output.html', output=output)

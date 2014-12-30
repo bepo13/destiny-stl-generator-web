@@ -11,10 +11,6 @@ destinyManifestUrl = "http://www.bungie.net/platform/Destiny/Manifest/"
 jsonFile = "./gear.json"
 
 def main():
-    if os.path.isfile(jsonFile):
-        print("Deleting old gear JSON file...")
-        os.remove(jsonFile)
-        
     # Open the Destiny manifest from bungie.net and load it as json
     print("Downloading gear database from bungie.net...")
     response = urllib.request.urlopen(destinyManifestUrl)
@@ -49,11 +45,28 @@ def main():
         itemId = struct.unpack('L', struct.pack('l', row[0]))[0]
         itemJson = row[1]
         try:
-            response = urllib.request.urlopen(destinyManifestUrl+"inventoryItem/"+str(itemId))
+            itemUrl = destinyManifestUrl+"inventoryItem/"+str(itemId)
+            response = urllib.request.urlopen(itemUrl)
             itemManifest = json.loads(response.read().decode())
-            itemName = itemManifest["Response"]["data"]["inventoryItem"]["itemName"].replace('"',"").rstrip().lower()
-            print("Adding "+itemName+" from: "+destinyManifestUrl+"inventoryItem/"+str(itemId))
-            gear[itemName] = itemJson
+            itemName = itemManifest["Response"]["data"]["inventoryItem"]["itemName"].replace('"',"").rstrip()
+            itemType = itemManifest["Response"]["data"]["inventoryItem"]["itemTypeName"].replace('"',"").rstrip()
+            itemCompleteName = itemName + " [" + itemType + "]"
+            key = itemCompleteName.replace('[',"").replace(']',"").lower()
+            
+            if ("Armor Shader" in itemType) or ("Restore Defaults" in itemType):
+                # Skip shaders
+                print("Ignoring shader with id",itemId,"...")
+                continue
+            elif "###Missing String" in itemName:
+                # Missing item name, skip
+                print("Skipping item with missing item name, id",itemId,"...")
+                continue
+            else:
+                # Add the item to the gear JSON
+                print("Adding "+itemCompleteName)
+                print("  key: "+key)
+                print("  url: "+itemUrl)
+                gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
         except:
             # Skip this entry
             print("Skipping item id",itemId,"...")
@@ -64,12 +77,16 @@ def main():
 
     # Write the dictionary to JSON file
     try:
+        if os.path.isfile(jsonFile):
+            os.remove(jsonFile)
+            print("Deleted old gear JSON file...")
         fo = open(jsonFile, 'w')
         fo.write(json.dumps(gear))
         fo.close()
         print("Successfully wrote JSON file...")
     except:
         print("Error writing the JSON file, exiting")
+        os.remove(bungieDbFile)
         exit()
         
     print("Cleaning up temp files...")
