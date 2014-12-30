@@ -10,12 +10,12 @@ bungieUrlPrefix = "http://www.bungie.net"
 bungieGeometryPrefix = "/common/destiny_content/geometry/platform/mobile/geometry/"
 
 class DestinyModel(object):
-    def __init__(self, name, jsonFile):
+    def __init__(self, name, jsonData):
         self.geometry = []
         self.name = name
         
         # Load the json file
-        self.json = json.loads(jsonFile)
+        self.json = jsonData
         
         print("Processing geometries...")
             

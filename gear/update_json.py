@@ -43,7 +43,7 @@ def main():
     c.execute("SELECT id, json FROM DestinyGearAssetsDefinition")
     for row in c:
         itemId = struct.unpack('L', struct.pack('l', row[0]))[0]
-        itemJson = row[1]
+        itemJson = json.loads(row[1])
         try:
             itemUrl = destinyManifestUrl+"inventoryItem/"+str(itemId)
             response = urllib.request.urlopen(itemUrl)
@@ -60,6 +60,10 @@ def main():
             elif "###Missing String" in itemName:
                 # Missing item name, skip
                 print("Skipping item with missing item name, id",itemId,"...")
+                continue
+            elif len(itemJson["content"]) == 0:
+                # Item has no content, skip
+                print("Skipping item with missing content, id",itemId,"...")
                 continue
             else:
                 # Add the item to the gear JSON

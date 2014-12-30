@@ -11,9 +11,6 @@ def welcome():
     f = open("./gear/gear.json", 'r')
     gear = json.loads(f.read())
     f.close()
-    
-    for key in gear:
-        print(gear[key]["name"])
         
     return render_template('welcome.html', gear=gear)
     
