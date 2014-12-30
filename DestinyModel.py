@@ -34,7 +34,7 @@ class DestinyModel(object):
         fo = io.StringIO()
         
         # Write name header
-        fo.write("solid "+self.name+"\n")
+        fo.write("solid\n")
          
         # Generate stl data for each geometry
         for geometry in self.geometry:

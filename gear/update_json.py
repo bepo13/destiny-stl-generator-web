@@ -49,11 +49,12 @@ def main():
             response = urllib.request.urlopen(itemUrl)
             itemManifest = json.loads(response.read().decode())
             itemName = itemManifest["Response"]["data"]["inventoryItem"]["itemName"].replace('"',"").rstrip()
-            itemType = itemManifest["Response"]["data"]["inventoryItem"]["itemTypeName"].replace('"',"").rstrip()
-            itemCompleteName = itemName + " [" + itemType + "]"
-            key = itemCompleteName.replace('[',"").replace(']',"").lower()
+            itemTypeName = itemManifest["Response"]["data"]["inventoryItem"]["itemTypeName"].replace('"',"").rstrip()
+            itemTierName = itemManifest["Response"]["data"]["inventoryItem"]["tierTypeName"].replace('"',"").rstrip()
+            itemCompleteName = itemName + " [" + itemTypeName + "]" + " [" + itemTierName + "]"
+            key = itemCompleteName.replace('[',"").replace(']',"").replace('\'',"").lower()
             
-            if ("Armor Shader" in itemType) or ("Restore Defaults" in itemType):
+            if ("Armor Shader" in itemTypeName) or ("Restore Defaults" in itemTypeName):
                 # Skip shaders
                 print("Ignoring shader with id",itemId,"...")
                 continue
