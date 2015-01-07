@@ -21,6 +21,9 @@ $RECYCLE.BIN/
 venv
 *.pyc
 
+# Temporary files
+tmp
+
 # =========================
 # Operating System Files
 # =========================
