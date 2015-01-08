@@ -44,57 +44,24 @@
             </div>
         </nav>
         <div class="container theme-showcase" role="main">
-            <div class="jumbotron">
-                <div class="container">
-                    <h1>Welcome!</h1>
-                    <p>This website can be used to generate stl files for thousands of in game items found in Destiny.
-                    The files are created with the same source geometry used to render your character on the official
-                    Destiny mobile app and Bungie website. This project is constantly being updated with new features
-                    and is still in early development. For the latest updates you can follow the project on <a href="https://twitter.com/destinystlgen">Twitter</a>.</p>
-                </div>
-            </div>
-            <br>
             <div class="container">
-                <div class="row">
+<!--                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-<!--                         <form class="input-group input-group-lg" action="generate">
-                            <input type="text" name="item" placeholder="" class="form-control">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">Generate</button>
-                            </span>
-                        </form> -->
-                        <form class="input-group input-group-lg select2-bootstrap-append" action="generate">
-                            <select name="item" class="form-control select2-allow-clear">
-                                <option></option>
-                                  {% for key in gear %}
-                                        <option>{{ gear[key]["name"] }}</option>
-                                  {% endfor %}
-                            </select>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">Generate</button>
-                            </span>
-                        </form>
+                        <h3>Output for {{ item }}:</h3>
+                        <textarea class="form-control" rows="30">{{ output }}</textarea>
                     </div>
-                </div>
+                </div> -->
+                <br>
+                <br>
+                    <center>
+                        <img src="static/images/3dpreview.png" width="400px" height="auto">
+                    </center>
+                <br>
                 <br>
                 <div class="row">
-                    <div class="col-md-5 col-md-offset-1">
-                        <h2>Usage</h2>
-                        <ol>
-                            <li>Select an item and click generate.</li>
-                            <li>Copy the generated text to your clipboard.</li>
-                            <li>Past the contents into a text editor and save with the stl file extension.</li>
-                            <li>Import the stl file into your favorite CAD program or a 3D printing clean up utility such as <a href="https://netfabb.azurewebsites.net/">NetFabb Cloud</a>.</li>
-                        </ol>
-                    </div>
-                    <div class="col-md-5">
-                        <h2>Notes</h2>
-                        <ol>
-                            <li>This is a beta version and not all items have been tested.</li>
-                            <li>It is recommended to clean up any models using a tool such as <a href="https://netfabb.azurewebsites.net/">NetFabb Cloud</a> before they can be 3D printed.</li>
-                            <li>Please report any issues to the project <a href="https://twitter.com/destinystlgen">Twitter page</a>.</li>
-                        </ol>
-                    </div>
+                    <center>
+                        <a href="{{ filePath }}" class="btn btn-success btn-lg">Download {{ fileName }}&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a>
+                    </center>
                 </div>
                 <br>
                 <br>
