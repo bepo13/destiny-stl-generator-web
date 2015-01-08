@@ -21,8 +21,8 @@ def welcome():
 def contact():
     return render_template('contact.html') 
     
-@app.route('/generate', methods=['GET'])
-def generate():
+@app.route('/download', methods=['GET'])
+def download():
     # Parse the arguments for item name and generate the key
     item = request.args.get('item')
     key = item.replace('[',"").replace(']',"").replace('\'',"").lower()
