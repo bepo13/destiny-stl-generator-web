@@ -1,7 +1,8 @@
+import os
 import io
+import re
 import json
 import struct
-import os
 import urllib.request
 import zipfile
 import sqlite3
@@ -52,7 +53,8 @@ def main():
             itemTypeName = itemManifest["Response"]["data"]["inventoryItem"]["itemTypeName"].replace('"',"").rstrip()
             itemTierName = itemManifest["Response"]["data"]["inventoryItem"]["tierTypeName"].replace('"',"").rstrip()
             itemCompleteName = itemName + " [" + itemTypeName + "]" + " [" + itemTierName + "]"
-            key = itemCompleteName.replace('[',"").replace(']',"").replace('\'',"").lower()
+            key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
+            # key = itemCompleteName.replace('[',"").replace(']',"").replace('\'',"").replace('/',"").lower()
             
             if ("Armor Shader" in itemTypeName) or ("Restore Defaults" in itemTypeName):
                 # Skip shaders
@@ -65,6 +67,10 @@ def main():
             elif len(itemJson["content"]) == 0:
                 # Item has no content, skip
                 print("Skipping item with missing content, id",itemId,"...")
+                continue
+            elif "geometry" not in itemJson["content"][0]:
+                # Item has no geometry, skip
+                print("Skipping item with missing geometry, id",itemId,"...")
                 continue
             else:
                 # Add the item to the gear JSON

@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from flask import Flask, request, render_template, send_file
 
@@ -25,7 +26,7 @@ def contact():
 def download():
     # Parse the arguments for item name and generate the key
     item = request.args.get('item')
-    key = item.replace('[',"").replace(']',"").replace('\'',"").lower()
+    key = re.sub(r'[^a-zA-Z0-9 ]', '', item).lower()
     
     # Create stl file name and path
     fileName = key.replace(" ","_")+".stl"
@@ -51,9 +52,11 @@ def download():
         # Download the model data for this item
         try:
             # Download the model geometries
+            print("Loading model with key "+key+"...")
             model = DestinyModel(item, gear[key]["json"])
             
             # Generate the output
+            print("Generating output...")
             output = model.generate()
             
             # Write output file
@@ -83,5 +86,5 @@ def send_tmp_file(filename):
         
 if __name__ == '__main__':
     # Run Flask
-    # app.debug = True
+    app.debug = True
     app.run()
