@@ -86,5 +86,5 @@ def send_tmp_file(filename):
         
 if __name__ == '__main__':
     # Run Flask
-    app.debug = True
+    # app.debug = True
     app.run()

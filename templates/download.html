@@ -21,6 +21,9 @@
 
         <!-- Custom styles for this template -->
         <link href="static/css/theme.css" rel="stylesheet">
+        
+        <!-- jquery script -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     </head>
 
     <body role="document">
@@ -79,14 +82,12 @@
                     </div>
                 </div>
                 <br>
-                <hr>
-                <footer>
-                    <p><b>This is a hobby project and is not financed by or associated with Bungie. All information used on this site is the property of Bungie.</b></p>
-                    <p><b><i>Brent Peterson, 2014</i></b></p>
-                </footer>
+                <div id="footer"></div>
+                <script> 
+                    $("#footer").load("static/html/footer.html"); 
+                </script>
             </div>
         </div>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="static/js/select2.js"></script>
         <script>
 			var placeholder = "Select an item";
