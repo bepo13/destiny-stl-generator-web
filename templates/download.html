@@ -40,8 +40,8 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
-<!--                         <li><a href="/contact">Contact</a></li> -->
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -62,9 +62,21 @@
                 <br>
                 <br>
                 <div class="row">
-                    <center>
-                        <a href="{{ filePathStl }}" class="btn btn-success btn-lg">Download "{{ fileNameStl }}"&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a>
-                    </center>
+                    <div class="col-md-5">
+                        <h3>Download a single stl file with all parts:</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ filePathStl }}" class="btn btn-success btn-lg">{{ fileNameStl }}&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-5">
+                        <h3>Download a zip file of individual parts:</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ filePathZip }}" class="btn btn-success btn-lg">{{ fileNameZip }}&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a>
+                    </div>
                 </div>
                 <br>
                 <br>

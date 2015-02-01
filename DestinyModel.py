@@ -2,6 +2,7 @@ import io
 import os
 import json
 import urllib
+import zipfile
 
 import DataParse
 import DestinyGeometry
@@ -48,31 +49,24 @@ class DestinyModel(object):
         
         return
     
-    def generate(self, fileStl, fileZip):        
-        #Open string file
-        fo = io.StringIO()
-        
-        # Write name header
-        fo.write("solid\n")
+    def generate(self, filePathStl, filePathZip):        
+        # Open stl and zip files
+        fStl = open(filePathStl, 'w')
+        fZip = zipfile.ZipFile(filePathZip, 'w', zipfile.ZIP_DEFLATED)
          
         # Generate stl data for each geometry
         for geometry in self.geometry:
-            print("test")
-            status = geometry.generate(fo)
+            status = geometry.generate(fStl, fZip)
             if status == False:
                 # Something went wrong, cleanup the file and return
                 fo.close()
                 return "Unable to parse request item geometry"
-        
-        # Retrieve string contents and close string file
-        contents = fo.getvalue()
-        fo.close()
-        
-        # Write output file
-        with open(fileStl, 'w') as fo:
-            fo.write(contents)
-            fo.close()
-        print("Wrote output file "+fileStl)
             
-        return contents
+        print("Wrote output file "+filePathStl)
+        
+        # Close stl and zip files
+        fStl.close()
+        fZip.close()
+            
+        return
     

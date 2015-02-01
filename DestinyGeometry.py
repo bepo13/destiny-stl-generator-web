@@ -1,3 +1,4 @@
+import io
 import json
 import struct
 from DataParse import VertexParse
@@ -52,14 +53,9 @@ class DestinyGeometry:
         print("Unable to retrieve geometry file",filename,", please file an issue for this item...")
         return
         
-    def generate(self, fo):
+    def generate(self, fStl, fZip):
         # Parse each mesh in the geometry
         for meshCount, mesh in enumerate(self.meshes):
-            # Create .stl file for this mesh and write the header
-            meshName = self.name + "_" + str(meshCount)
-            # fom = open(zipDir+meshName+".stl", 'w')
-            # fom.write("solid\n")
-            
             # Parse the normal and positional vertex buffers (ignore everything else for now)
             positions = []
             normals = []
@@ -130,6 +126,11 @@ class DestinyGeometry:
                 # We need to reverse the order of vertices every other iteration
                 flip = False;
                 
+                # Create stringio for this mesh and write the header
+                meshName = self.name + "_" + str(meshCount) + "_" + str(i)
+                fo = io.StringIO()
+                fo.write("solid " + meshName+ "\n")
+                
                 j = 0
                 while j < count:
                     # Skip if any two of the indexBuffer match (ignoring lines or points)
@@ -165,6 +166,17 @@ class DestinyGeometry:
                     
                     flip = not flip
                     j += increment
+                    
+                # Write stringio data to stl file
+                contents = fo.getvalue()
+                fStl.write(contents)
+                
+                # Write stringio data to zip as a separate part file
+                fZip.writestr(meshName+".stl", contents)
+                
+                # Close stringio object
+                fo.close()
+                
             print("Added mesh "+str(meshCount)+" from geometry "+self.name)
                 
         # Success

@@ -20,7 +20,7 @@ def welcome():
     
 @app.route('/contact')
 def contact():
-    return render_template('contact.html') 
+    return render_template('contact.html')
     
 @app.route('/download', methods=['GET'])
 def download():
@@ -63,7 +63,7 @@ def download():
             # error page
             
     # Return the file download page
-    return render_template('download.html', item=item, fileNameStl=fileNameStl, filePathStl=filePathStl)
+    return render_template('download.html', item=item, fileNameStl=fileNameStl, filePathStl=filePathStl, fileNameZip=fileNameZip, filePathZip=filePathZip)
 
 @app.route('/stl/<path:filename>')
 def send_tmp_file(filename):
