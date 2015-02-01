@@ -52,9 +52,6 @@ def main():
             itemName = itemManifest["Response"]["data"]["inventoryItem"]["itemName"].replace('"',"").rstrip()
             itemTypeName = itemManifest["Response"]["data"]["inventoryItem"]["itemTypeName"].replace('"',"").rstrip()
             itemTierName = itemManifest["Response"]["data"]["inventoryItem"]["tierTypeName"].replace('"',"").rstrip()
-            itemCompleteName = itemName + " [" + itemTypeName + "]" + " [" + itemTierName + "]"
-            key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
-            # key = itemCompleteName.replace('[',"").replace(']',"").replace('\'',"").replace('/',"").lower()
             
             if ("Armor Shader" in itemTypeName) or ("Restore Defaults" in itemTypeName):
                 # Skip shaders
@@ -73,11 +70,41 @@ def main():
                 print("Skipping item with missing geometry, id",itemId,"...")
                 continue
             else:
-                # Add the item to the gear JSON
-                print("Adding "+itemCompleteName)
-                print("  key: "+key)
-                print("  url: "+itemUrl)
-                gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
+                # Create separate entries for male and female items
+                if ("male_index_set" in itemJson["content"][0]) or ("female_index_set" in itemJson["content"][0]):
+                    # Check for male index set
+                    if "male_index_set" in itemJson["content"][0]:
+                        # Create complete item name and dictionary key
+                        itemCompleteName = itemName + " [Male] [" + itemTypeName + "] [" + itemTierName + "]"
+                        key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
+                        
+                        # Add the item to the gear JSON
+                        print("Adding "+itemCompleteName)
+                        print("  key: "+key)
+                        print("  url: "+itemUrl)
+                        gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
+                    
+                    # Check for female index set
+                    if "female_index_set" in itemJson["content"][0]:
+                        # Create complete item name and dictionary key
+                        itemCompleteName = itemName + " [Female] [" + itemTypeName + "] [" + itemTierName + "]"
+                        key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
+                        
+                        # Add the item to the gear JSON
+                        print("Adding "+itemCompleteName)
+                        print("  key: "+key)
+                        print("  url: "+itemUrl)
+                        gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
+                else:
+                    # Create complete item name and dictionary key
+                    itemCompleteName = itemName + " [" + itemTypeName + "] [" + itemTierName + "]"
+                    key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
+                    
+                    # Add the item to the gear JSON
+                    print("Adding "+itemCompleteName)
+                    print("  key: "+key)
+                    print("  url: "+itemUrl)
+                    gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
         except:
             # Skip this entry
             print("Skipping item id",itemId,"...")

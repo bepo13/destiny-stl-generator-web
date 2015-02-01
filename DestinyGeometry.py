@@ -55,6 +55,11 @@ class DestinyGeometry:
     def generate(self, fo):
         # Parse each mesh in the geometry
         for meshCount, mesh in enumerate(self.meshes):
+            # Create .stl file for this mesh and write the header
+            meshName = self.name + "_" + str(meshCount)
+            # fom = open(zipDir+meshName+".stl", 'w')
+            # fom.write("solid\n")
+            
             # Parse the normal and positional vertex buffers (ignore everything else for now)
             positions = []
             normals = []
@@ -110,10 +115,11 @@ class DestinyGeometry:
                 count = part["index_count"]
                 
                 # Process indexBuffer in sets of 3
-                if part["primitive_type"] == 3:
+                primitive_type = part["primitive_type"]
+                if primitive_type == 3:
                     increment = 3
                 # Process indexBuffer as triangle strip
-                elif part["primitive_type"] == 5:
+                elif primitive_type == 5:
                     increment = 1
                     count -= 2
                 # Unknown primitive define, skip this part
@@ -137,7 +143,8 @@ class DestinyGeometry:
                     fo.write("facet normal 0.0 0.0 0.0\n")
                     fo.write("  outer loop\n")
                     
-                    if flip:
+                    # flip the triangle only when using primitive_type 5
+                    if flip and (primitive_type == 5):
                         # write the three vertices to the file in reverse order
                         k = 3
                         while k > 0:

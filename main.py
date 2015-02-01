@@ -28,21 +28,20 @@ def download():
     item = request.args.get('item')
     key = re.sub(r'[^a-zA-Z0-9 ]', '', item).lower()
     
-    # Create stl file name and path
-    fileName = key.replace(" ","_")+".stl"
-    filePath = outputPath+fileName
+    # Create file names
+    fileName = key.replace(" ","_")
+    fileNameStl = fileName+".stl"
+    filePathStl = outputPath+fileNameStl
+    fileNameZip = fileName+".zip"
+    filePathZip = outputPath+fileNameZip
     
     # Create output directory
     if not os.path.exists(outputPath):
         os.makedirs(outputPath)
     
     # Check if file has already been created
-    if os.path.exists(filePath):
-        print("Using existing file "+filePath)
-        # Read in the file contents
-        with open(filePath, 'r') as fi:
-            output = fi.read()
-            fi.close()
+    if os.path.exists(filePathStl):
+        print("Using existing file "+fileNameStl)
     else:
         # Load gear JSON file
         f = open("./gear/gear.json", 'r')
@@ -57,20 +56,14 @@ def download():
             
             # Generate the output
             print("Generating output...")
-            output = model.generate()
-            
-            # Write output file
-            with open(filePath, 'w') as fo:
-                fo.write(output)
-                fo.close()
-            print("Wrote output file "+filePath)
+            model.generate(filePathStl, filePathZip)
         except:
             output = "Unable to generate files for item: "+str(item)
             return render_template('output.html', output=output)
             # error page
             
     # Return the file download page
-    return render_template('download.html', item=item, fileName=fileName, filePath=filePath, output=output)
+    return render_template('download.html', item=item, fileNameStl=fileNameStl, filePathStl=filePathStl)
 
 @app.route('/stl/<path:filename>')
 def send_tmp_file(filename):

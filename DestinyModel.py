@@ -18,18 +18,37 @@ class DestinyModel(object):
         self.json = jsonData
         
         print("Processing geometries...")
-            
-        # Get the geometry file names from the json and parse the geometries
-        for geometryFile in self.json["content"][0]["geometry"]:
-            path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
-            print("Geometry file: "+path)
-            response = urllib.request.urlopen(path)
-            data = DataParse.DataParse(response.read())
-            self.geometry.append(DestinyGeometry.parse(data))
+        
+        if "[Male]" in name:
+            # Parse all the geometry indices for male items and parse the geometries
+            for geometryIndex in self.json["content"][0]["male_index_set"]["geometry"]:
+                geometryFile = self.json["content"][0]["geometry"][geometryIndex]
+                path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
+                print("Geometry file: "+path)
+                response = urllib.request.urlopen(path)
+                data = DataParse.DataParse(response.read())
+                self.geometry.append(DestinyGeometry.parse(data))
+        elif "[Female]" in name:
+            # Parse all the geometry indices for female items and parse the geometries
+            for geometryIndex in self.json["content"][0]["female_index_set"]["geometry"]:
+                geometryFile = self.json["content"][0]["geometry"][geometryIndex]
+                path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
+                print("Geometry file: "+path)
+                response = urllib.request.urlopen(path)
+                data = DataParse.DataParse(response.read())
+                self.geometry.append(DestinyGeometry.parse(data))
+        else:
+            # Get the geometry file names from the json and parse the geometries
+            for geometryFile in self.json["content"][0]["geometry"]:
+                path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
+                print("Geometry file: "+path)
+                response = urllib.request.urlopen(path)
+                data = DataParse.DataParse(response.read())
+                self.geometry.append(DestinyGeometry.parse(data))
         
         return
     
-    def generate(self):
+    def generate(self, fileStl, fileZip):        
         #Open string file
         fo = io.StringIO()
         
@@ -38,6 +57,7 @@ class DestinyModel(object):
          
         # Generate stl data for each geometry
         for geometry in self.geometry:
+            print("test")
             status = geometry.generate(fo)
             if status == False:
                 # Something went wrong, cleanup the file and return
@@ -47,6 +67,12 @@ class DestinyModel(object):
         # Retrieve string contents and close string file
         contents = fo.getvalue()
         fo.close()
+        
+        # Write output file
+        with open(fileStl, 'w') as fo:
+            fo.write(contents)
+            fo.close()
+        print("Wrote output file "+fileStl)
             
         return contents
     
