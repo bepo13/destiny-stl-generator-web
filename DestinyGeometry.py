@@ -19,30 +19,39 @@ class DestinyGeometry:
         self.name = data.readString(256)
         self.files = []
         
-        # Parse header for file data
-        i = self.fileCount
-        while i > 0:
-            file = EmptyObject()
-            file.name = data.readString(256)
-            file.startAddr = data.readInt64()
-            file.length = data.readInt64()
-            
-            # Flag the index of the render file
-            if "render_metadata.js" in file.name:
-                jsonIndex = len(self.files)
-            
-            self.files.append(file)
-            i -= 1
+        try:
+            # Parse header for file data
+            i = self.fileCount
+            while i > 0:
+                file = EmptyObject()
+                file.name = data.readString(256)
+                file.startAddr = data.readInt64()
+                file.length = data.readInt64()
+                
+                # Flag the index of the render file
+                if "render_metadata.js" in file.name:
+                    jsonIndex = len(self.files)
+                
+                self.files.append(file)
+                i -= 1
+        except:
+            print("Error parsing file header!")
         
         # Read in files
-        i = 0
-        while i < self.fileCount:
-            data.seek(self.files[i].startAddr)
-            self.files[i].data = data.read(self.files[i].length)
-            i += 1
+        try:
+            i = 0
+            while i < self.fileCount:
+                data.seek(self.files[i].startAddr)
+                self.files[i].data = data.read(self.files[i].length)
+                i += 1
+        except:
+            print("Error reading in files!")
             
-        # Load the meshes from the render_metadata.js file
-        self.meshes = json.loads(self.files[jsonIndex].data.decode())["render_model"]["render_meshes"]
+        try:
+            # Load the meshes from the render_metadata.js file
+            self.meshes = json.loads(self.files[jsonIndex].data.decode())["render_model"]["render_meshes"]
+        except:
+            print("Error loading meshes from render_metadata.js")
             
         return
     

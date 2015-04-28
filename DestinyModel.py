@@ -47,6 +47,7 @@ class DestinyModel(object):
                 data = DataParse.DataParse(response.read())
                 self.geometry.append(DestinyGeometry.parse(data))
         
+        print("Done processing geometries...")
         return
     
     def generate(self, filePathStl, filePathZip):        
