@@ -75,7 +75,7 @@ def main():
                     # Check for male index set
                     if "male_index_set" in itemJson["content"][0]:
                         # Create complete item name and dictionary key
-                        itemCompleteName = itemName + " [Male] [" + itemTypeName + "] [" + itemTierName + "]"
+                        itemCompleteName = itemName+" [Male] ["+itemTypeName+"] ["+itemTierName+"] ["+str(itemId)+"]"
                         key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
                         
                         # Add the item to the gear JSON
@@ -87,7 +87,7 @@ def main():
                     # Check for female index set
                     if "female_index_set" in itemJson["content"][0]:
                         # Create complete item name and dictionary key
-                        itemCompleteName = itemName + " [Female] [" + itemTypeName + "] [" + itemTierName + "]"
+                        itemCompleteName = itemName+" [Female] ["+itemTypeName+"] ["+itemTierName+"] ["+str(itemId)+"]"
                         key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
                         
                         # Add the item to the gear JSON
@@ -97,7 +97,7 @@ def main():
                         gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
                 else:
                     # Create complete item name and dictionary key
-                    itemCompleteName = itemName + " [" + itemTypeName + "] [" + itemTierName + "]"
+                    itemCompleteName = itemName+" ["+itemTypeName+"] ["+itemTierName+"] ["+str(itemId)+"]"
                     key = re.sub(r'[^a-zA-Z0-9 ]', '', itemCompleteName).lower()
                     
                     # Add the item to the gear JSON
