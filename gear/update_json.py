@@ -9,17 +9,20 @@ import sqlite3
 
 bungieUrlPrefix = "http://www.bungie.net"
 destinyManifestUrl = "http://www.bungie.net/platform/Destiny/Manifest/"
+headers = {"X-API-Key": "37929154a3fb499fa908cf2a2d75c6a8"}
 jsonFile = "./gear.json"
 
 def main():
     # Open the Destiny manifest from bungie.net and load it as json
     print("Downloading gear database from bungie.net...")
-    response = urllib.request.urlopen(destinyManifestUrl)
+    request = urllib.request.Request(destinyManifestUrl, headers=headers)
+    response = urllib.request.urlopen(request)
     manifest = json.loads(response.read().decode())
     
     # Read the path for the gear database file and open it
     path = bungieUrlPrefix+manifest["Response"]["mobileGearAssetDataBases"][1]["path"]
-    response = urllib.request.urlopen(path)
+    request = urllib.request.Request(path, headers=headers)
+    response = urllib.request.urlopen(request)
 
     # Gunzip the database file
     gearZip = zipfile.ZipFile(io.BytesIO(response.read()))
@@ -47,7 +50,8 @@ def main():
         itemJson = json.loads(row[1])
         try:
             itemUrl = destinyManifestUrl+"inventoryItem/"+str(itemId)
-            response = urllib.request.urlopen(itemUrl)
+            request = urllib.request.Request(itemUrl, headers=headers)
+            response = urllib.request.urlopen(request)
             itemManifest = json.loads(response.read().decode())
             itemName = itemManifest["Response"]["data"]["inventoryItem"]["itemName"].replace('"',"").rstrip()
             itemTypeName = itemManifest["Response"]["data"]["inventoryItem"]["itemTypeName"].replace('"',"").rstrip()
@@ -105,8 +109,9 @@ def main():
                     print("  key: "+key)
                     print("  url: "+itemUrl)
                     gear[key] = {"id": itemId, "name": itemCompleteName, "json": itemJson}
-        except:
+        except Exception as e:
             # Skip this entry
+            print(str(e))
             print("Skipping item id",itemId,"...")
             continue
     

@@ -9,6 +9,7 @@ import DestinyGeometry
 
 bungieUrlPrefix = "http://www.bungie.net"
 bungieGeometryPrefix = "/common/destiny_content/geometry/platform/mobile/geometry/"
+headers = {"X-API-Key": "37929154a3fb499fa908cf2a2d75c6a8"}
 
 class DestinyModel(object):
     def __init__(self, name, jsonData):
@@ -26,7 +27,8 @@ class DestinyModel(object):
                 geometryFile = self.json["content"][0]["geometry"][geometryIndex]
                 path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
                 print("Geometry file: "+path)
-                response = urllib.request.urlopen(path)
+                request = urllib.request.Request(path, headers=headers)
+                response = urllib.request.urlopen(request)
                 data = DataParse.DataParse(response.read())
                 self.geometry.append(DestinyGeometry.parse(data))
         elif "[Female]" in name:
@@ -35,7 +37,8 @@ class DestinyModel(object):
                 geometryFile = self.json["content"][0]["geometry"][geometryIndex]
                 path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
                 print("Geometry file: "+path)
-                response = urllib.request.urlopen(path)
+                request = urllib.request.Request(path, headers=headers)
+                response = urllib.request.urlopen(request)
                 data = DataParse.DataParse(response.read())
                 self.geometry.append(DestinyGeometry.parse(data))
         else:
@@ -43,7 +46,8 @@ class DestinyModel(object):
             for geometryFile in self.json["content"][0]["geometry"]:
                 path = bungieUrlPrefix+bungieGeometryPrefix+geometryFile
                 print("Geometry file: "+path)
-                response = urllib.request.urlopen(path)
+                request = urllib.request.Request(path, headers=headers)
+                response = urllib.request.urlopen(request)
                 data = DataParse.DataParse(response.read())
                 self.geometry.append(DestinyGeometry.parse(data))
         
