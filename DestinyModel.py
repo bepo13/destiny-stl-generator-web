@@ -8,7 +8,7 @@ import DataParse
 import DestinyGeometry
 
 bungieUrlPrefix = "http://www.bungie.net"
-bungieGeometryPrefix = ["/common/destin_content/geometry/platform/mobile/geometry/",
+bungieGeometryPrefix = ["/common/destiny_content/geometry/platform/mobile/geometry/",
                         "/common/destiny2_content/geometry/platform/mobile/geometry/"]
 headers = {"X-API-Key": "37929154a3fb499fa908cf2a2d75c6a8"}
 
