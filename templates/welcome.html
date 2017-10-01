@@ -52,19 +52,36 @@
                     <h1>Welcome!</h1>
                     <p>This website can be used to generate stl files for thousands of in game items found in Destiny.
                     The files are created with the same source geometry used to render your character on the official
-                    Destiny mobile app and Bungie website. This project is constantly being updated with new features
-                    and is still in early development. For the latest updates you can follow the project on <a href="https://twitter.com/destinystlgen">Twitter</a>.</p>
+                    Destiny mobile app and Bungie website.</p>
                 </div>
             </div>
             <br>
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
+                        <h2>Destiny 1</h2>
                         <form class="input-group input-group-lg select2-bootstrap-append" action="download">
                             <select name="item" class="form-control select2-allow-clear">
                                 <option></option>
-                                  {% for key in gear %}
-                                        <option>{{ gear[key]["name"] }}</option>
+                                  {% for key in gear_d1 %}
+                                        <option>{{ gear_d1[key]["name"] }}</option>
+                                  {% endfor %}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Generate</button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h2>Destiny 2</h2>
+                        <form class="input-group input-group-lg select2-bootstrap-append" action="download">
+                            <select name="item" class="form-control select2-allow-clear">
+                                <option></option>
+                                  {% for key in gear_d2 %}
+                                        <option>{{ gear_d2[key]["name"] }}</option>
                                   {% endfor %}
                             </select>
                             <span class="input-group-btn">
@@ -87,20 +104,12 @@
                         <h2>Notes</h2>
                         <ol>
                             <li>This is a beta version and not all items have been tested.</li>
-                            <li>It is recommended to clean up any models using a tool such as <a href="https://netfabb.azurewebsites.net/">NetFabb Cloud</a> before they can be 3D printed.</li>
-                            <li>Please report any issues to the project <a href="https://twitter.com/destinystlgen">Twitter page</a>.</li>
+                            <li>It is recommended to clean up any models using a tool such as <a href="https://tools3d.azurewebsites.net/">Microsoft 3D Repair</a> before they can be 3D printed.</li>
                         </ol>
                     </div>
                 </div>
                 <br>
                 <br>
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4"> 
-                        <center>
-                            <a href="https://twitter.com/destinystlgen" class="twitter-follow-button" data-show-count="false" data-size="large" data-dnt="true">Follow @destinystlgen</a>
-                        </center>
-                    </div>
-                </div>
                 <br>
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4"> 

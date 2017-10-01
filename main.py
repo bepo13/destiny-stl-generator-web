@@ -11,12 +11,15 @@ outputPath = "stl/"
 
 @app.route('/')
 def welcome():
-    # Load gear JSON file
-    f = open("./gear/gear.json", 'r')
-    gear = json.loads(f.read())
+    # Load gear JSON files
+    f = open("./gear/gear_d1.json", 'r')
+    gear_d1 = json.loads(f.read())
+    f.close()
+    f = open("./gear/gear_d2.json", 'r')
+    gear_d2 = json.loads(f.read())
     f.close()
         
-    return render_template('welcome.html', gear=gear)
+    return render_template('welcome.html', gear_d1=gear_d1, gear_d2=gear_d2)
     
 @app.route('/contact')
 def contact():
@@ -43,16 +46,23 @@ def download():
     if os.path.exists(filePathStl):
         print("Using existing file "+fileNameStl)
     else:
-        # Load gear JSON file
-        f = open("./gear/gear.json", 'r')
-        gear = json.loads(f.read())
+        # Load gear JSON files
+        f = open("./gear/gear_d1.json", 'r')
+        gear_d1 = json.loads(f.read())
+        f.close()
+        f = open("./gear/gear_d2.json", 'r')
+        gear_d2 = json.loads(f.read())
         f.close()
         
         # Download the model data for this item
         try:
             # Download the model geometries
-            print("Loading model with key "+key+"...")
-            model = DestinyModel(item, gear[key]["json"])
+            if key in gear_d1:
+                print("Loading D1 model with key "+key+"...")
+                model = DestinyModel(item, gear_d1[key]["json"], 0)
+            elif key in gear_d2:
+                print("Loading D2 model with key "+key+"...")
+                model = DestinyModel(item, gear_d2[key]["json"], 1)
             
             # Generate the output
             print("Generating output...")
