@@ -19,8 +19,7 @@ def welcome():
     gear_d2 = json.loads(f.read())
     f.close()
         
-    return render_template('index.html')
-    # return render_template('index.html', gear_d1=gear_d1, gear_d2=gear_d2)
+    return render_template('home.html', gear_d1=gear_d1, gear_d2=gear_d2)
     
 @app.route('/contact')
 def contact():
