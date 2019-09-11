@@ -103,18 +103,17 @@
             <div class="col-md-10 align-center">
                 <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">
                     Destiny 1</h1>
-                    <form class="input-group input-group-lg select2-bootstrap-append" action="download">
-                        <select name="item" class="form-control select2-allow-clear">
-                            <option></option>
-                              {% for key in gear_d1 %}
-                                    <option>{{ gear_d1[key]["name"] }}</option>
-                              {% endfor %}
-                        </select>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">Generate</button>
-                        </span>
-                    </form>
-                <!-- <div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-4" href="https://mobirise.co">LEARN MORE</a></div> -->
+                <form class="input-group input-group-lg select2-bootstrap-append" action="download">
+                    <select name="item" class="form-control select2-allow-clear">
+                        <option></option>
+                            {% for key in gear_d1 %}
+                                <option>{{ gear_d1[key]["name"] }}</option>
+                            {% endfor %}
+                    </select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Generate</button>
+                    </span>
+                </form>
             </div>
         </div>
     </div>
@@ -126,18 +125,17 @@
             <div class="col-md-10 align-center">
                 <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">
                     Destiny 2</h1>
-                    <form class="input-group input-group-lg select2-bootstrap-append" action="download">
-                        <select name="item" class="form-control select2-allow-clear">
-                            <option></option>
-                              {% for key in gear_d2 %}
-                                    <option>{{ gear_d2[key]["name"] }}</option>
-                              {% endfor %}
-                        </select>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">Generate</button>
-                        </span>
-                    </form>
-                </div>
+                <form class="input-group input-group-lg select2-bootstrap-append" action="download">
+                    <select name="item" class="form-control select2-allow-clear">
+                        <option></option>
+                            {% for key in gear_d2 %}
+                                <option>{{ gear_d2[key]["name"] }}</option>
+                            {% endfor %}
+                    </select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Generate</button>
+                    </span>
+                </form>
             </div>
         </div>
     </div>
