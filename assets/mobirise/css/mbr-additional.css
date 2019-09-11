@@ -87,7 +87,6 @@ body {
   border-width: 2px;
   font-style: normal;
   letter-spacing: 1px;
-  margin: .4rem .8rem;
   white-space: normal;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -99,8 +98,8 @@ body {
   -webkit-align-items: center;
   -webkit-justify-content: center;
   display: -webkit-inline-flex;
-  padding: 1rem 3rem;
   border-radius: 3px;
+  height: 100%;
 }
 .btn-sm {
   font-weight: 500;
@@ -661,7 +660,6 @@ a:hover {
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   line-height: 1.43;
-  min-height: 3.5em;
   padding: 1.07em .5em;
 }
 .form-control > .mbr-iconfont {
