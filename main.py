@@ -11,15 +11,23 @@ outputPath = "stl/"
 
 @app.route('/')
 def welcome():
-    # Load gear JSON files
+    # Load and format D1 gear data
     f = open("./gear/gear_d1.json", 'r')
     gear_d1 = json.loads(f.read())
+    data_d1 = []
+    for k, v in gear_d1.items():
+        data_d1.append({"text": v["name"], "id": v["name"]})
     f.close()
+
+    # Load and format D2 gear data
     f = open("./gear/gear_d2.json", 'r')
     gear_d2 = json.loads(f.read())
+    data_d2 = []
+    for k, v in gear_d2.items():
+        data_d2.append({"text": v["name"], "id": v["name"]})
     f.close()
         
-    return render_template('home.html', gear_d1=gear_d1, gear_d2=gear_d2)
+    return render_template('home.html', data_d1=data_d1, data_d2=data_d2)
     
 @app.route('/contact')
 def contact():

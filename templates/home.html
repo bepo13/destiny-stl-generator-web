@@ -26,9 +26,6 @@
 </head>
 <body>
   <section class="menu cid-rAFiMCVkhI" once="menu" id="menu1-r">
-
-    
-
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <div class="hamburger">
@@ -50,27 +47,21 @@
             </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
-            
         </div>
     </nav>
 </section>
 
 <section class="engine"><a href="https://mobirise.info/a">online site builder</a></section><section class="cid-rAF1YAOADm mbr-fullscreen mbr-parallax-background" id="header2-l">
-
-    
-
     <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);"></div>
-
     <div class="container align-center">
         <div class="row justify-content-md-center">
             <div class="mbr-white col-md-10">
                 <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
-                    Destiny STL Generator</h1>
-                
+                    Destiny STL Generator
+                </h1>
                 <p class="mbr-text pb-3 mbr-fonts-style display-5">
-                    Generate STL files for thousands of weapons, armor and ships from the Destiny universe. Models are created using the same source files as the Bungie website and official Destiny mobile app.</p>
-                
+                    Generate STL files for thousands of weapons, armor and ships from the Destiny universe. Models are created using the same source files as the Bungie website and official Destiny mobile app.
+                </p>
             </div>
         </div>
     </div>
@@ -82,8 +73,6 @@
 </section>
 
 <section class="mbr-section article content11 cid-rAF1ZbF5Cx" id="content11-m">
-     
-
     <div class="container">
         <div class="media-container-row">
             <div class="mbr-text counter-container col-12 col-md-8 mbr-fonts-style display-5">
@@ -101,15 +90,9 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-md-10 align-center">
-                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">
-                    Destiny 1</h1>
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">Destiny 1</h1>
                 <form class="input-group input-group-lg select2-bootstrap-append" action="download">
-                    <select name="item" class="form-control select2-allow-clear">
-                        <option></option>
-                            {% for key in gear_d1 %}
-                                <option>{{ gear_d1[key]["name"] }}</option>
-                            {% endfor %}
-                    </select>
+                    <input type="text" name="item" class="form-control select2-allow-clear" id="select2-destiny1"/>
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">Generate</button>
                     </span>
@@ -123,15 +106,9 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-md-10 align-center">
-                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">
-                    Destiny 2</h1>
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">Destiny 2</h1>
                 <form class="input-group input-group-lg select2-bootstrap-append" action="download">
-                    <select name="item" class="form-control select2-allow-clear">
-                        <option></option>
-                            {% for key in gear_d2 %}
-                                <option>{{ gear_d2[key]["name"] }}</option>
-                            {% endfor %}
-                    </select>
+                    <input type="text" name="item" class="form-control select2-allow-clear" id="select2-destiny2"/>
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">Generate</button>
                     </span>
@@ -142,40 +119,82 @@
 </section>
 
 <section once="footers" class="cid-rAEZ6FuheI" id="footer6-e">
-
-    
-
-    
-
     <div class="container">
         <div class="media-container-row align-center mbr-white">
             <div class="col-12">
                 <p class="mbr-text mb-0 mbr-fonts-style display-7">This is a hobby project and is not financed by or associated with Bungie. All information used on this site is the property of Bungie. 
-<br>Brent Peterson 2019</p>
+                <br>Brent Peterson 2019</p>
             </div>
         </div>
     </div>
 </section>
 
+<script src="assets/web/assets/jquery/jquery.min.js"></script>
+<script src="assets/popper/popper.min.js"></script>
+<script src="assets/tether/tether.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/smoothscroll/smooth-scroll.js"></script>
+<script src="assets/dropdown/js/nav-dropdown.js"></script>
+<script src="assets/dropdown/js/navbar-dropdown.js"></script>
+<script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
+<script src="assets/parallax/jarallax.min.js"></script>
+<script src="assets/theme/js/script.js"></script>
+<script src="assets/select2/js/select2.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
+<script>
+    var placeholder = "Select an item";
+    var data_d1 = {{ data_d1|tojson }};
+    var data_d2 = {{ data_d2|tojson }};
 
-  <script src="assets/web/assets/jquery/jquery.min.js"></script>
-  <script src="assets/popper/popper.min.js"></script>
-  <script src="assets/tether/tether.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smoothscroll/smooth-scroll.js"></script>
-  <script src="assets/dropdown/js/nav-dropdown.js"></script>
-  <script src="assets/dropdown/js/navbar-dropdown.js"></script>
-  <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
-  <script src="assets/parallax/jarallax.min.js"></script>
-  <script src="assets/theme/js/script.js"></script>
-  <script src="assets/select2/js/select2.js"></script>
-  <script>
-      var placeholder = "Select an item";
+    $('#select2-destiny1').select2({
+        data: data_d1,
+        allowClear: true,
+        placeholder: placeholder,
+        query: function(q) {
+            var pageSize,
+            results,
+            that = this;
+            pageSize = 20;
+            results = [];
+            if (q.term && q.term !== '') {
+                results = _.filter(that.data, function(e) {
+                    return e.text.toUpperCase().indexOf(q.term.toUpperCase()) >= 0;
+                });
+            }
+            else if (q.term === '') {
+                results = that.data;
+            }
+            q.callback({
+                results: results.slice((q.page - 1) * pageSize, q.page * pageSize),
+                more: results.length >= q.page * pageSize,
+            });
+        }
+    });
+    $('#select2-destiny2').select2({
+        data: data_d2,
+        allowClear: true,
+        placeholder: placeholder,
+        query: function(q) {
+            var pageSize,
+            results,
+            that = this;
+            pageSize = 20;
+            results = [];
+            if (q.term && q.term !== '') {
+                results = _.filter(that.data, function(e) {
+                    return e.text.toUpperCase().indexOf(q.term.toUpperCase()) >= 0;
+                });
+            }
+            else if (q.term === '') {
+                results = that.data;
+            }
+            q.callback({
+                results: results.slice((q.page - 1) * pageSize, q.page * pageSize),
+                more: results.length >= q.page * pageSize,
+            });
+        }
+    });
+</script>
 
-      $( ".select2, .select2-multiple" ).select2( { placeholder: placeholder } );
-      $( ".select2-allow-clear" ).select2( { allowClear: true, placeholder: placeholder } );
-  </script>
-  
-  
 </body>
 </html>
