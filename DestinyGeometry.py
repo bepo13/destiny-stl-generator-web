@@ -1,4 +1,5 @@
 import io
+import os
 import json
 import struct
 from DataParse import VertexParse
@@ -18,7 +19,7 @@ class DestinyGeometry:
         self.fileCount = data.readInt32()
         self.name = data.readString(256)
         self.files = []
-        
+
         try:
             # Parse header for file data
             i = self.fileCount
@@ -27,16 +28,16 @@ class DestinyGeometry:
                 file.name = data.readString(256)
                 file.startAddr = data.readInt64()
                 file.length = data.readInt64()
-                
+
                 # Flag the index of the render file
                 if "render_metadata.js" in file.name:
                     jsonIndex = len(self.files)
-                
+
                 self.files.append(file)
                 i -= 1
         except:
             print("Error parsing file header!")
-        
+
         # Read in files
         try:
             i = 0
@@ -46,22 +47,22 @@ class DestinyGeometry:
                 i += 1
         except:
             print("Error reading in files!")
-            
+
         try:
             # Load the meshes from the render_metadata.js file
             self.meshes = json.loads(self.files[jsonIndex].data.decode())["render_model"]["render_meshes"]
         except:
             print("Error loading meshes from render_metadata.js")
-            
+
         return
-    
+
     def get(self, filename):
         for i in range(self.fileCount):
             if filename == self.files[i].name:
                 return self.files[i]
         print("Unable to retrieve geometry file",filename,", please file an issue for this item...")
         return
-        
+
     def generate(self, fStl, fZip):
         # Parse each mesh in the geometry
         for meshCount, mesh in enumerate(self.meshes):
@@ -83,12 +84,12 @@ class DestinyGeometry:
                         positions = VertexParse(data, element["type"], element["offset"], stride)
                     elif element["semantic"] == "_tfx_vb_semantic_normal":
                         normals = VertexParse(data, element["type"], element["offset"], stride)
-            
+
             # Check that we found both a position and vertex buffer with the same length
             if (len(positions) == 0) or (len(normals) == 0) or (len(positions) != len(normals)):
                 print("Mismatched position and normal vectors, exiting...")
                 return False
-                
+
             # Parse the index buffer
             indexBuffer = []
             try:
@@ -99,26 +100,26 @@ class DestinyGeometry:
             while i < len(dataBytes):
                 indexBuffer.append(struct.unpack('<h', dataBytes[i:i+2])[0])
                 i += 2
-                
+
             parts = mesh["stage_part_list"]
             # Loop through all the parts in the mesh
-            for i, part in enumerate(parts):                    
+            for i, part in enumerate(parts):
                 # Check if this part has been duplicated
                 ignore = False
                 for j in range(i):
                     if (part["start_index"] == parts[j]["start_index"]) or (part["index_count"] == parts[j]["index_count"]):
                         ignore = True
-                        
+
                 # Skip anything meeting one of the following::
                 #   duplicate part
                 #   lod_category value greater than one
                 if ignore or part["lod_category"]["value"] > 1:
                     continue
-                
-                # Get the start index and count
+
+                # Get the start index and counta
                 start = part["start_index"]
                 count = part["index_count"]
-                
+
                 # Process indexBuffer in sets of 3
                 primitive_type = part["primitive_type"]
                 if primitive_type == 3:
@@ -131,15 +132,15 @@ class DestinyGeometry:
                 else:
                     print("Unknown primitive_type, skipping this part...")
                     continue
-                
+
                 # We need to reverse the order of vertices every other iteration
                 flip = False;
-                
+
                 # Create stringio for this mesh and write the header
                 meshName = self.name + "_" + str(meshCount) + "_" + str(i)
                 fo = io.StringIO()
                 fo.write("solid " + meshName+ "\n")
-                
+
                 j = 0
                 while j < count:
                     # Skip if any two of the indexBuffer match (ignoring lines or points)
@@ -147,12 +148,18 @@ class DestinyGeometry:
                         flip = not flip
                         j += increment
                         continue
-                        
+
+                    # Skip if indexBuffer is -1
+                    if (indexBuffer[start+j+0] == -1) or (indexBuffer[start+j+1] == -1) or (indexBuffer[start+j+2] == -1):
+                        flip = False
+                        j += increment
+                        continue
+
                     # Write the normal and loop start to file
                     # the normal doesn't matter for this, the order of vertices does
                     fo.write("facet normal 0.0 0.0 0.0\n")
                     fo.write("  outer loop\n")
-                    
+
                     # flip the triangle only when using primitive_type 5
                     if flip and (primitive_type == 5):
                         # write the three vertices to the file in reverse order
@@ -168,29 +175,41 @@ class DestinyGeometry:
                             v = positions[indexBuffer[start+j+k]]
                             v = (v + offsetConst) * scaleConst
                             fo.write("    vertex "+str(v[0])+" "+str(v[1])+" "+str(v[2])+"\n")
-                    
+
                     # Write the loop and normal end to file
                     fo.write("  endloop\n")
                     fo.write("endfacet\n")
-                    
+
                     flip = not flip
                     j += increment
-                    
+
                 # Write stringio data to stl file
                 contents = fo.getvalue()
                 fStl.write(contents)
-                
+
                 # Write stringio data to zip as a separate part file
                 fZip.writestr(meshName+".stl", contents)
-                
+
                 # Close stringio object
                 fo.close()
-                
+
+                # DEBUG: write debug files
+                # debugDir = "DEBUG"
+                # if not os.path.exists(debugDir):
+                    # os.mkdir(debugDir)
+                # with open(debugDir+"/"+meshName+"_indexBuffer.txt", "w") as f:
+                    # for n in range(len(indexBuffer)):
+                        # f.write("%d: %d\n" % (n, indexBuffer[n]))
+                # with open(debugDir+"/"+meshName+"_vertexBuffer.txt", "w") as f:
+                    # for n in range(len(positions)):
+                        # f.write(str(positions[n]))
+                        # f.write("/n")
+
             print("Added mesh "+str(meshCount)+" from geometry "+self.name)
-                
+
         # Success
         return True
-                
+
 def parse(data):
     return DestinyGeometry(data)
 

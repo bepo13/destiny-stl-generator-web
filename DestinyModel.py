@@ -16,13 +16,13 @@ class DestinyModel(object):
     def __init__(self, name, jsonData, game):
         self.geometry = []
         self.name = name
-        
+
         # Load the json file
         self.json = jsonData
-        
+
         print("Processing geometries...")
         # print(json.dumps(self.json, indent=4, sort_keys=True))
-        
+
         if "[Male]" in name:
             # Parse all the geometry indices for male items and parse the geometries
             for geometryIndex in self.json["content"][0]["male_index_set"]["geometry"]:
@@ -52,15 +52,15 @@ class DestinyModel(object):
                 response = urllib.request.urlopen(request)
                 data = DataParse.DataParse(response.read())
                 self.geometry.append(DestinyGeometry.parse(data))
-        
+
         print("Done processing geometries...")
         return
-    
-    def generate(self, filePathStl, filePathZip):        
+
+    def generate(self, filePathStl, filePathZip):
         # Open stl and zip files
         fStl = open(filePathStl, 'w')
         fZip = zipfile.ZipFile(filePathZip, 'w', zipfile.ZIP_DEFLATED)
-         
+
         # Generate stl data for each geometry
         for geometry in self.geometry:
             status = geometry.generate(fStl, fZip)
@@ -68,12 +68,11 @@ class DestinyModel(object):
                 # Something went wrong, cleanup the file and return
                 fo.close()
                 return "Unable to parse request item geometry"
-            
+
         print("Wrote output file "+filePathStl)
-        
+
         # Close stl and zip files
         fStl.close()
         fZip.close()
-            
+
         return
-    
