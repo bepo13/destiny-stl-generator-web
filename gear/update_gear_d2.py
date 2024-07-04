@@ -9,7 +9,7 @@ import sqlite3
 
 bungieUrlPrefix = "http://www.bungie.net"
 D2ManifestUrl = "https://www.bungie.net/platform/Destiny2/manifest/"
-headers = {"X-API-Key": "37929154a3fb499fa908cf2a2d75c6a8"}
+headers = {"X-API-Key": ""}
 jsonFile = "./gear_d2.json"
 
 def main():
